@@ -1,0 +1,6 @@
+[submodule "shared"]
+	path = shared
+	url = https://github.com/PegasusRealm/inkwell-shared.git
+[submodule "web"]
+	path = web
+	url = https://github.com/PegasusRealm/inkwell.git
