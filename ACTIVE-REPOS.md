@@ -23,6 +23,12 @@
 - **Purpose:** Shared Firebase backend (functions, rules, config)
 - **Don't work here directly** - work in `inkwell-monorepo/shared/` instead
 
+### 4. **inkwell-mobile**
+- **URL:** https://github.com/PegasusRealm/inkwell-mobile
+- **Purpose:** React Native mobile app for iOS and Android
+- **Status:** ✅ iOS build successful, Firebase integrated
+- **Don't work here directly** - work in `inkwell-monorepo/mobile/` instead
+
 ---
 
 ## 🗑️ Delete These Repositories
@@ -62,6 +68,7 @@ cd /Users/Grimm/Documents/Pegasus_Realm/15_App_Projects/inkwell-monorepo
 inkwell-monorepo/          ← Work here!
 ├── shared/                ← Firebase backend (submodule)
 ├── web/                   ← Web app (submodule)
+├── mobile/                ← Mobile app (submodule) ✅
 ├── scripts/               ← Helper scripts
 └── ACTIVE-REPOS.md       ← This file
 ```
