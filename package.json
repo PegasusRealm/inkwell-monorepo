@@ -1,0 +1,11 @@
+{
+  "name": "inkwell-monorepo-root",
+  "private": true,
+  "description": "This is the monorepo root. Run commands from subdirectories!",
+  "scripts": {
+    "start": "echo '❌ ERROR: Wrong directory! Run from mobile_2/' && echo 'cd mobile_2 && npm start' && exit 1",
+    "ios": "echo '❌ ERROR: Wrong directory! Run from mobile_2/' && echo 'cd mobile_2 && npm run ios' && exit 1",
+    "android": "echo '❌ ERROR: Wrong directory! Run from mobile_2/' && echo 'cd mobile_2 && npm run android' && exit 1",
+    "test": "echo '❌ ERROR: Wrong directory!' && exit 1"
+  }
+}

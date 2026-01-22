@@ -1,0 +1,25 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Start Metro (mobile_2)",
+      "type": "shell",
+      "command": "npm start",
+      "options": {
+        "cwd": "${workspaceFolder}/mobile_2"
+      },
+      "isBackground": true,
+      "problemMatcher": []
+    },
+    {
+      "label": "Run iOS Simulator (mobile_2)",
+      "type": "shell",
+      "command": "npm run ios:sim",
+      "options": {
+        "cwd": "${workspaceFolder}/mobile_2"
+      },
+      "isBackground": true,
+      "problemMatcher": []
+    }
+  ]
+}
