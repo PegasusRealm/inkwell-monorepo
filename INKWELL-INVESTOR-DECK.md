@@ -7,13 +7,13 @@
 
 ## Executive Summary
 
-**InkWell** is a B2B2C digital wellness platform that combines AI-powered personal journaling with optional mental health practitioner support. Unlike traditional journaling apps, InkWell bridges the gap between self-guided reflection and professional care—creating a new category of **assisted self-therapy**.
+**InkWell** is a B2B2C digital wellness platform that combines AI-powered personal journaling with optional wellness coach support. Unlike traditional journaling apps, InkWell bridges the gap between self-guided reflection and professional coaching—creating a new category of **assisted self-improvement**.
 
 | Metric | Value |
 |--------|-------|
 | **Platform** | iOS, Android, Web |
 | **Tech Stack** | React Native, Firebase, Claude AI |
-| **Revenue Model** | Freemium SaaS + B2B Practitioner Network |
+| **Revenue Model** | Freemium SaaS + B2B Coach Network |
 | **Target TAM** | $5.2B (Mental Health Apps, 15% CAGR) |
 | **Status** | Production-ready, paywall system built |
 
@@ -22,11 +22,11 @@
 ## The Problem
 
 ### For Individuals
-- **83% of therapy happens between sessions** — yet most people have no structured way to process emotions
-- Generic journaling apps lack therapeutic depth and feel isolating
+- **83% of personal growth happens between coaching sessions** — yet most people have no structured way to process emotions
+- Generic journaling apps lack depth and feel isolating
 - Users want guidance without the cost/stigma of formal therapy
 
-### For Practitioners  
+### For Coaches  
 - Limited touchpoints with clients between sessions
 - No secure, scalable way to monitor client progress digitally
 - Paper journals and scattered notes create compliance risks
@@ -35,7 +35,7 @@
 
 ## The Solution: InkWell
 
-InkWell is the **first journaling platform that scales therapeutic insight** — from self-guided AI reflection to practitioner-connected care.
+InkWell is the **first journaling platform that scales wellness insight** — from self-guided AI reflection to coach-connected support.
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -43,10 +43,10 @@ InkWell is the **first journaling platform that scales therapeutic insight** —
 ├─────────────────┬─────────────────┬─────────────────────────────┤
 │   FREE TIER     │   PLUS TIER     │       CONNECT TIER          │
 │                 │                 │                             │
-│  Solo journaling│  + AI Sophy     │  + Live Practitioner        │
+│  Solo journaling│  + AI Sophy     │  + Live Coach               │
 │  with occasional│    Reflections  │    Connection & Check-ins   │
 │  AI prompts     │  + SMS Nudges   │                             │
-│                 │  + Full Insights│  "Therapy-lite at scale"    │
+│                 │  + Full Insights│  "Coaching support at scale" │
 └─────────────────┴─────────────────┴─────────────────────────────┘
 ```
 
@@ -115,17 +115,17 @@ WISH is InkWell's **research-backed goal achievement framework** based on implem
 
 ---
 
-### 👨‍⚕️ Practitioner Integration (Connect Tier)
+### 👨‍⚕️ Coach Integration (Connect Tier)
 
 InkWell creates a **secure bridge between journaling and professional care**:
 
 **For Clients:**
-- Share specific journal entries with their practitioner
+- Share specific journal entries with their coach
 - Receive asynchronous check-ins and replies
-- Maintain journaling habit between therapy sessions
-- HIPAA-compliant consent and data handling
+- Maintain journaling habit between coaching sessions
+- Secure consent and data handling
 
-**For Practitioners:**
+**For Coaches:**
 - Dashboard with connected client list
 - View and respond to tagged entries
 - Gift code system for client onboarding
@@ -133,7 +133,7 @@ InkWell creates a **secure bridge between journaling and professional care**:
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                   PRACTITIONER PORTAL                           │
+│                   COACH PORTAL                               │
 ├─────────────────────────────────────────────────────────────────┤
 │  🏠 Dashboard                                                   │
 │  ├── Connected Clients (up to 50)                               │
@@ -180,7 +180,7 @@ InkWell meets users where they are:
 |------|-------|--------------|
 | **Free** | $0/mo | Unlimited journaling, WISH tool, email recaps, 20% AI access |
 | **Plus** | $6.99/mo | 100% AI access, SMS notifications, data export |
-| **Connect** | $29.99/mo | Everything in Plus + Practitioner connection, 4 weekly check-ins |
+| **Connect** | $29.99/mo | Everything in Plus + Coach connection, 4 weekly check-ins |
 
 **Additional Revenue Streams:**
 - **Annual Plans:** Plus annual at $69.99/year (17% discount)
@@ -191,12 +191,12 @@ InkWell meets users where they are:
 
 ```
 $29.99/month Connect Subscription
-├── Practitioner: 60% (~$18)
+├── Coach: 60% (~$18)
 ├── InkWell Platform: 30% (~$9)
 └── Payment Processing: ~10% (~$3)
 ```
 
-**Practitioner Earning Potential:**
+**Coach Earning Potential:**
 - 50 clients × $18/month = **$900/month passive income**
 - Zero marketing cost (InkWell handles acquisition)
 
@@ -209,7 +209,7 @@ $29.99/month Connect Subscription
 | **LTV (Plus Annual)** | $70 |
 | **LTV (Connect, 12mo)** | $360 |
 | **Platform Margin (Connect)** | 30% ($108/user/year) |
-| **Practitioner CAC** | Near-zero (organic professional network) |
+| **Coach CAC** | Near-zero (organic professional network) |
 
 ---
 
@@ -236,7 +236,7 @@ $29.99/month Connect Subscription
 - 🔒 HTTPS/TLS 1.3 encryption in transit
 - 🔒 Encryption at rest (Google Cloud)
 - 🔒 Firebase Auth token validation
-- 🔒 HIPAA-compliant data handling
+- 🔒 Secure data handling
 - 🔒 GDPR/CCPA-compliant deletion workflows
 - 🔒 Hardened CORS with allowed origins
 
@@ -247,15 +247,14 @@ $29.99/month Connect Subscription
 | Feature | InkWell | Day One | Jour | Reflectly |
 |---------|:-------:|:-------:|:----:|:---------:|
 | AI Companion | ✅ Therapeutic | ❌ | ⚠️ Basic | ⚠️ Basic |
-| Practitioner Integration | ✅ | ❌ | ❌ | ❌ |
-| HIPAA Compliance | ✅ | ❌ | ❌ | ❌ |
+| Coach Integration | ✅ | ❌ | ❌ | ❌ |
 | WISH Goal System | ✅ Proprietary | ❌ | ❌ | ❌ |
 | Multi-Channel Engagement | ✅ SMS/Push/Email | ❌ | ⚠️ | ⚠️ |
 | Voice Journaling | ✅ | ✅ | ⚠️ | ❌ |
 | Web + Mobile | ✅ | ✅ | ✅ | Mobile only |
 | B2B Revenue Stream | ✅ | ❌ | ❌ | ❌ |
 
-**Key Differentiator:** InkWell is the only platform that enables a **B2B2C flywheel** — practitioners bring clients, clients generate subscriptions, subscriptions fund practitioner payouts.
+**Key Differentiator:** InkWell is the only platform that enables a **B2B2C flywheel** — coaches bring clients, clients generate subscriptions, subscriptions fund coach payouts.
 
 ---
 
@@ -272,9 +271,9 @@ $29.99/month Connect Subscription
 ### Why Now?
 
 1. **Post-pandemic mental health awareness** — 76% of adults report increased stress
-2. **Therapist shortage** — 160M Americans live in mental health professional shortage areas
+2. **Coach shortage** — 160M Americans live in wellness professional shortage areas
 3. **AI acceptance** — Consumer comfort with AI companions has surged
-4. **Creator economy for practitioners** — Therapists seeking supplemental income streams
+4. **Creator economy for coaches** — Wellness professionals seeking supplemental income streams
 
 ---
 
@@ -290,16 +289,15 @@ $29.99/month Connect Subscription
 - [x] Email insights (SendGrid)
 - [x] Push notifications (FCM)
 - [x] Subscription system (RevenueCat + Stripe)
-- [x] Practitioner portal
+- [x] Coach portal
 - [x] Admin approval dashboard
-- [x] HIPAA consent flow
 - [x] Feature gating system (dormant, ready to activate)
 
 ### 🔜 Near-Term (Q1-Q2 2026)
 
 - [ ] App Store launch (iOS + Android)
 - [ ] Paywall activation
-- [ ] Practitioner referral bonuses
+- [ ] Coach referral bonuses
 - [ ] PDF export with formatting
 - [ ] Biometric lock (Face ID/Touch ID)
 
@@ -341,10 +339,10 @@ $29.99/month Connect Subscription
 │     └── Receive milestone SMS reminders                         │
 ├─────────────────────────────────────────────────────────────────┤
 │  5. UPGRADE TO CONNECT (Optional)                               │
-│     ├── Connect with a mental health practitioner               │
-│     ├── Tag entries to share with practitioner                  │
+│     ├── Connect with a certified coach                            │
+│     ├── Tag entries to share with coach                           │
 │     ├── Receive professional replies                            │
-│     └── Maintain therapeutic continuity                         │
+│     └── Maintain coaching continuity                             │
 ├─────────────────────────────────────────────────────────────────┤
 │  6. LONG-TERM ENGAGEMENT                                        │
 │     ├── Weekly/Monthly insight emails                           │
@@ -354,19 +352,19 @@ $29.99/month Connect Subscription
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-### Practitioner Workflow
+### Coach Workflow
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │  1. APPLY & APPROVAL                                            │
-│     ├── Register via practitioner portal                        │
+│     ├── Register via coach portal                                │
 │     ├── Submit credentials for admin review                     │
 │     └── Receive approval notification                           │
 ├─────────────────────────────────────────────────────────────────┤
 │  2. CLIENT ACQUISITION                                          │
 │     ├── Generate gift codes for existing clients                │
 │     ├── Clients sign up via gift code                           │
-│     └── OR clients find practitioner in-app                     │
+│     └── OR clients find coach in-app                             │
 ├─────────────────────────────────────────────────────────────────┤
 │  3. CLIENT MANAGEMENT                                           │
 │     ├── Dashboard shows all connected clients                   │
@@ -387,26 +385,26 @@ $29.99/month Connect Subscription
 ### 🧠 Therapeutic Depth
 Sophy isn't a novelty — she's trained on real therapeutic frameworks and recognizes cognitive patterns. Users feel genuinely supported, not gimmicked.
 
-### 🌉 Bridge to Care
-InkWell is the only journaling app that connects users to licensed practitioners. This creates stickiness, trust, and a defensible moat.
+### 🌉 Bridge to Coaching
+InkWell is the only journaling app that connects users to wellness coaches. This creates stickiness, trust, and a defensible moat.
 
 ### 💰 Dual Revenue Engine
-B2C subscriptions (Plus) + B2B practitioner network (Connect) = diversified, recurring revenue with network effects.
+B2C subscriptions (Plus) + B2B coach network (Connect) = diversified, recurring revenue with network effects.
 
 ### 🔧 Built, Not Planned
-The entire platform — subscriptions, paywall, practitioner portal, AI, SMS, email — is **production-ready**. Activation requires a single config toggle.
+The entire platform — subscriptions, paywall, coach portal, AI, SMS, email — is **production-ready**. Activation requires a single config toggle.
 
 ### 📈 Scalable Flywheel
-More practitioners → More clients → More revenue → More practitioners
+More coaches → More clients → More revenue → More coaches
 
 ---
 
 ## Call to Action
 
-InkWell represents a **unique opportunity** to invest in the intersection of AI, mental wellness, and the creator economy for healthcare providers.
+InkWell represents a **unique opportunity** to invest in the intersection of AI, mental wellness, and the creator economy for wellness professionals.
 
 **We are seeking:**
-- Strategic partnerships with mental health networks
+- Strategic partnerships with wellness networks
 - Distribution partners in employee wellness
 - Capital to fund go-to-market and App Store launch
 
@@ -423,4 +421,4 @@ InkWell represents a **unique opportunity** to invest in the intersection of AI,
 
 ---
 
-*© 2026 PegasusRealm. All rights reserved. HIPAA-compliant. Built with ❤️ and AI.*
+*© 2026 PegasusRealm. All rights reserved. Built with ❤️ and AI.*

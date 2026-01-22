@@ -1,7 +1,7 @@
 # Admin Account Setup Guide
 
 ## Overview
-The admin system has been fully integrated with practitioner verification and email notifications.
+The admin system has been fully integrated with coach verification and email notifications.
 
 ## Initial Admin Setup
 
@@ -65,21 +65,21 @@ https://inkwell-alpha.web.app/admin.html
 
 ### Features
 
-#### 1. Practitioner Application Review
+#### 1. Coach Application Review
 - View all pending applications from `practitionerApplications` collection
 - See full details: name, credentials, specialty, license, location, description
 - Approve or reject with one click
 
-#### 2. Approve Practitioner
+#### 2. Approve Coach
 When you approve:
 - ✅ Sets `accountType: "coach"` (grants 25% discount on all tiers)
 - ✅ Creates record in `approvedPractitioners` collection
 - ✅ Creates revenue tracking in `practitioners` collection  
 - ✅ Updates application status to "approved"
 - ✅ Sends professional approval email via SendGrid
-- ✅ Grants access to practitioner portal
+- ✅ Grants access to coach portal
 
-#### 3. Reject Practitioner
+#### 3. Reject Coach
 When you reject:
 - ❌ Updates application status to "rejected"
 - ❌ Optionally provide reason for rejection
@@ -98,13 +98,13 @@ All emails are sent via **SendGrid** using the configured `SENDGRID_API_KEY` sec
    - Final warning (Day 13)
    - Downgrade confirmation (Day 14)
 
-2. **Practitioner Approval Email**
+2. **Coach Approval Email**
    - Welcome message
    - Portal access link
    - Discount information
    - Next steps guidance
 
-3. **Practitioner Rejection Email**
+3. **Coach Rejection Email**
    - Professional notification
    - Optional reason
    - Reapplication information
@@ -116,20 +116,20 @@ All emails are sent via **SendGrid** using the configured `SENDGRID_API_KEY` sec
 
 ## Cloud Functions Deployed
 
-### Practitioner Verification
+### Coach Verification
 - ✅ `approvePractitioner` - Approve applications, grant coach role, send email
 - ✅ `rejectPractitioner` - Reject applications, send email
 - ✅ `getPendingPractitioners` - List pending applications (admin only)
 
 ### Grace Period Management
 - ✅ `checkGracePeriods` - Scheduled daily 4 AM UTC
-- ✅ `disconnectPractitioner` - Handle practitioner disconnection
+- ✅ `disconnectPractitioner` - Handle coach disconnection
 - ✅ `sendGracePeriodEmail` - Helper function for email sending
 
 ## Application Flow
 
-### Practitioner Registration
-1. Practitioner receives invitation or visits registration page
+### Coach Registration
+1. Coach receives invitation or visits registration page
 2. Fills out application form with credentials, license info
 3. System creates:
    - Firebase Auth account
@@ -144,7 +144,7 @@ All emails are sent via **SendGrid** using the configured `SENDGRID_API_KEY` sec
 5. Applicant receives email notification
 
 ### Post-Approval
-1. Practitioner can log into portal
+1. Coach can log into portal
 2. Has `accountType: "coach"` (25% discount)
 3. Can create gift codes for clients
 4. Revenue is tracked in `practitioners` collection
@@ -160,7 +160,7 @@ All emails are sent via **SendGrid** using the configured `SENDGRID_API_KEY` sec
 ### Collections Used
 - `users` - User profiles with roles
 - `practitionerApplications` - Pending/approved/rejected applications
-- `approvedPractitioners` - Active practitioners
+- `approvedPractitioners` - Active coaches
 - `practitioners` - Revenue tracking
 - `admins` - (Optional) Alternative admin checking collection
 
@@ -221,7 +221,7 @@ Create it at: https://console.firebase.google.com/project/inkwell-alpha/firestor
 3. **Create test practitioner application** to verify approval flow
 4. **Check SendGrid** for email delivery
 5. **Monitor grace period emails** in SendGrid dashboard
-6. **Review practitioner portal** access after approval
+6. **Review coach portal** access after approval
 
 ## Support
 
