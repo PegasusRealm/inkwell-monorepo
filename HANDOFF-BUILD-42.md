@@ -7,7 +7,43 @@
 
 ---
 
-## 🚀 Starter Prompt for New Copilot Session
+## � CRITICAL: iOS BUILD IS BROKEN (Feb 2, 2026)
+
+**DO NOT attempt CLI builds with xcodebuild.** The following issues exist:
+
+### Issue 1: FuseboxTracerTest.cpp
+- **Error**: `'gtest/gtest.h' file not found`
+- **Location**: `node_modules/react-native/ReactCommon/reactperflogger/fusebox/tests/FuseboxTracerTest.cpp`
+- **Cause**: React Native 0.74.5 includes a test file that requires Google Test framework, which isn't included in Release builds
+- **Failed fixes**: Renaming/moving the file breaks Pods project references
+
+### Issue 2: folly-config.h missing
+- **Error**: `'folly/folly-config.h' file not found`
+- **Cause**: `pod install` doesn't generate this file properly
+- **Location**: Should be at `ios/Pods/RCT-Folly/folly/folly-config.h`
+
+### Recommended Fix (NOT ATTEMPTED YET)
+1. **Patch the podspec** to exclude test files from compilation:
+   ```ruby
+   # In Podfile post_install:
+   installer.pods_project.targets.each do |target|
+     if target.name == 'React-perflogger'
+       target.source_build_phase.files.each do |file|
+         if file.file_ref&.path&.include?('FuseboxTracerTest')
+           file.file_ref.remove_from_project
+         end
+       end
+     end
+   end
+   ```
+
+2. **Or use Xcode GUI**: Product → Archive (reportedly works when CLI fails)
+
+3. **Or downgrade React Native** to a version without the fusebox test issue
+
+---
+
+## �🚀 Starter Prompt for New Copilot Session
 
 Copy this to start a new conversation:
 
@@ -88,11 +124,15 @@ Please read HANDOFF-BUILD-42.md for full context on what was completed in the la
 
 ## ⚠️ Known Issues / Notes
 
-1. **Splash Screen:** User reports not seeing splash on mobile - may be simulator/hot reload issue. Logic is correct (`showSplash=true` initially). Test on real device cold start.
+1. **iOS BUILD BROKEN** - See top of document. xcodebuild CLI archive fails. Xcode GUI may work.
 
-2. **Voice Module:** Wrapped in try/catch due to NativeEventEmitter warning on iOS 26.1. Voice may need testing.
+2. **Push Notifications Code Ready** - AppDelegate.mm, notificationService.ts, SettingsScreen.tsx all updated with proper delegate methods and error handling. Just needs a working build to test on TestFlight.
 
-3. **React-perflogger Podspec:** Was patched to exclude `**/tests/**` and `**/fusebox/**` - this is in node_modules so may need re-patching after `npm install`. Add to Podfile post_install if it recurs.
+3. **Splash Screen:** User reports not seeing splash on mobile - may be simulator/hot reload issue. Logic is correct (`showSplash=true` initially). Test on real device cold start.
+
+4. **Voice Module:** Wrapped in try/catch due to NativeEventEmitter warning on iOS 26.1. Voice may need testing.
+
+5. **React-perflogger/Fusebox Test File:** This is the ROOT CAUSE of build failures. The file `FuseboxTracerTest.cpp` should not be compiled in Release builds but is being included. Need to patch Podfile or podspec.
 
 ---
 
