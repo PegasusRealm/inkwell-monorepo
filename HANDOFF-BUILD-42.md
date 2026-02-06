@@ -1,49 +1,41 @@
-# InkWell Session Handoff - Build 42 (v4.0 Stable)
+# InkWell Session Handoff - Build 64 (v4.26036.3)
 
-**Date**: January 29, 2026  
-**Commit**: bb5d15e  
-**Mobile Build**: 4.0 (42) - Uploaded to TestFlight  
+**Date**: February 5, 2026  
+**Mobile Build**: 4.26036.3 (64) - **SUBMITTED FOR APP STORE REVIEW** 🎉  
 **Web**: Deployed to inkwelljournal.io
 
 ---
 
-## � CRITICAL: iOS BUILD IS BROKEN (Feb 2, 2026)
+## ⚠️⚠️⚠️ CRITICAL: FIRESTORE DATA STRUCTURE WARNING ⚠️⚠️⚠️
 
-**DO NOT attempt CLI builds with xcodebuild.** The following issues exist:
-
-### Issue 1: FuseboxTracerTest.cpp
-- **Error**: `'gtest/gtest.h' file not found`
-- **Location**: `node_modules/react-native/ReactCommon/reactperflogger/fusebox/tests/FuseboxTracerTest.cpp`
-- **Cause**: React Native 0.74.5 includes a test file that requires Google Test framework, which isn't included in Release builds
-- **Failed fixes**: Renaming/moving the file breaks Pods project references
-
-### Issue 2: folly-config.h missing
-- **Error**: `'folly/folly-config.h' file not found`
-- **Cause**: `pod install` doesn't generate this file properly
-- **Location**: Should be at `ios/Pods/RCT-Folly/folly/folly-config.h`
-
-### Recommended Fix (NOT ATTEMPTED YET)
-1. **Patch the podspec** to exclude test files from compilation:
-   ```ruby
-   # In Podfile post_install:
-   installer.pods_project.targets.each do |target|
-     if target.name == 'React-perflogger'
-       target.source_build_phase.files.each do |file|
-         if file.file_ref&.path&.include?('FuseboxTracerTest')
-           file.file_ref.remove_from_project
-         end
-       end
-     end
-   end
-   ```
-
-2. **Or use Xcode GUI**: Product → Archive (reportedly works when CLI fails)
-
-3. **Or downgrade React Native** to a version without the fusebox test issue
+> **BEFORE WRITING ANY NEW CLOUD FUNCTIONS OR ADDING DATA FIELDS:**
+> 
+> 1. **REVIEW the existing Firestore collections and field names**
+> 2. **Check for existing fields** that might already serve your purpose
+> 3. **Avoid creating redundant fields** (we've had issues with `manifest` vs `manifests`, date formats, etc.)
+> 
+> **Key Collections to Review:**
+> - `users/{uid}` - User profile, settings, `userTags`, `connectedCoach`, etc.
+> - `journalEntries/{entryId}` - Entries with `tags`, `coachReply`, `coachReplyAt`, etc.
+> - `manifests/{userId}` - Single document per user (NOT a subcollection!)
+> - `coaches/{coachId}` - Coach profiles
+> 
+> **Past Issues Caused by Not Checking:**
+> - Mobile queried `manifest` collection instead of `manifests/{userId}` doc
+> - Multiple date format inconsistencies (ISO strings vs Firestore Timestamps)
+> - Redundant fields being created instead of using existing ones
 
 ---
 
-## �🚀 Starter Prompt for New Copilot Session
+## ✅ iOS BUILD IS NOW WORKING (Feb 5, 2026)
+
+**CLI builds work!** Previous issues were resolved:
+- Fresh `pod install` regenerates codegen files properly
+- If build fails with missing `FBReactNativeSpec.h`, run: `cd ios && rm -rf Pods Podfile.lock && pod install`
+
+---
+
+## 🚀 Starter Prompt for New Copilot Session
 
 Copy this to start a new conversation:
 
@@ -55,46 +47,62 @@ I'm working on InkWell, a journaling/wellness app.
 - `web/` - Firebase hosted web app (inkwelljournal.io)
 - `shared/` - Cloud Functions backend (source of truth)
 
-**Current Build**: 4.0 (42) - Stable, on TestFlight
+**Current Build**: 4.26036.3 (64) - Submitted for App Store Review!
 **Web**: Live at inkwelljournal.io (Firebase project: inkwell-alpha)
 
 **Tech Stack**: React Native 0.74.5, TypeScript, Hermes, Firebase (Auth/Firestore/Functions/Messaging), RevenueCat, Claude Haiku AI
 
 **Bundle ID**: com.pegasusrealm.inkwellmobile | **Team ID**: GULD29SRW8
 
-Please read HANDOFF-BUILD-42.md for full context on what was completed in the last session.
+⚠️ IMPORTANT: Before adding new Firestore fields or functions, REVIEW existing data structure to avoid redundancies!
+
+Please read HANDOFF-BUILD-42.md for full context.
 ```
 
 ---
 
-## ✅ What Was Completed (January 29, 2026)
+## ✅ What Was Completed (Build 64 - February 5, 2026)
 
-### 1. Tag System (Free Feature) - COMPLETE
+### 1. Manifest Data Fix - COMPLETE
+- **Issue:** Mobile entries weren't linking manifest data properly
+- **Root Cause:** JournalScreen.tsx queried `manifest` collection (wrong) instead of `manifests/{userId}` doc (correct)
+- **Fix:** Changed from collection query with date filter to single document fetch
+
+### 2. Past Entries Coach Reply Fix - COMPLETE
+- **Issue:** Calendar didn't show purple date for coach replies, entries not visible initially
+- **Root Cause:** Firestore cache returning stale data
+- **Fix:** Added `{ source: 'server' }` to bypass cache, auto-select today when new coach replies exist
+
+### 3. Insights Modal Padding - COMPLETE
+- **Issue:** 7/30-day insights content was cut off at bottom
+- **Fix:** Added `paddingBottom: spacing.xl` to scroll content
+
+### 4. Dark Mode Text Colors - COMPLETE
+- **Issue:** Coach name, input labels, picker items hard to read in dark mode
+- **Fix:** Changed colors to `brandLight` (#B8E0EA) for labels, added `color` props to Picker items
+
+---
+
+## ✅ What Was Completed (Earlier Builds)
+
+### Tag System (Free Feature) - COMPLETE
 - **Web:** Full implementation with CSS, JS, autocomplete, tag management in Past Entries
 - **Mobile:** Tag state, UI, and Firestore sync added to JournalScreen.tsx
 - **Data Structure:** 
   - `users/{uid}.userTags` - array of user's tags (normalized lowercase)
   - `journalEntries/{entryId}.tags` - tags on each entry
 
-### 2. Export Data Fix - COMPLETE
+### Export Data Fix - COMPLETE
 - **Issue:** `data.createdAt?.toDate()` failed because createdAt can be ISO string OR Firestore Timestamp
 - **Fix:** Added `safeToDate()` helper (web) and `safeToISOString()` helper (mobile)
-- **Also Fixed:** Manifest query was wrong - now reads single doc at `manifests/{userId}` instead of subcollection
 
-### 3. CORS Fix for Mobile - COMPLETE
+### CORS Fix for Mobile - COMPLETE
 - **Issue:** `setupHardenedCORS()` in Cloud Functions blocked mobile requests (no Origin header)
 - **Fix:** Added check to allow requests with no origin (mobile/server-to-server)
-- **Deployed:** `semanticSearch`, `generatePeriodInsights` functions
 
-### 4. Insights URL Fix - COMPLETE
+### Insights URL Fix - COMPLETE
 - **Issue:** Mobile used old Cloud Run URL format
 - **Fix:** Updated to `https://us-central1-inkwell-alpha.cloudfunctions.net/generatePeriodInsights`
-
-### 5. UI Fixes - COMPLETE
-- Progress bar minimum 5% fill when starting
-- Language consistency: "Your Manifest" + "using the WISH method"
-- Added `marginBottom: 12` to WeeklyActivityDots container
-- Fixed `currentUser` reference in web's `updateWeeklyActivityDots()`
 
 ---
 
@@ -163,7 +171,7 @@ cd shared && firebase deploy --only functions
 - **Firebase Project:** `inkwell-alpha`
 - **Production Domain:** `https://inkwelljournal.io`
 - **Cloud Functions:** v2, Node.js 20, us-central1
-- **iOS Version:** 4.0 (Build 42)
+- **iOS Version:** 4.26036.3 (Build 64) - **Submitted for App Store Review**
 - **React Native:** 0.74.5
 
 ---
@@ -183,4 +191,4 @@ cd shared && firebase deploy --only functions
 
 ---
 
-*Build 42 is a stable release. Good foundation for App Store submission after testing.*
+*Build 64 (v4.26036.3) has been submitted for App Store review! 🚀*
