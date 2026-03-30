@@ -2,9 +2,9 @@
 
 **Last Updated**: March 29, 2026  
 **iOS Status**: ✅ STABLE — EAS pipeline working, RN 0.76.9 on Xcode 26.2  
-**Android Status**: 🔜 NEXT — first-time build, not on Play Store yet  
-**Last Build**: ✅ Build 80 (v26.087.1) — submitted to App Store Connect March 28, 2026  
-**Next Build**: **81** | **Next Task**: Android EAS setup  
+**Android Status**: � IN PROGRESS — EAS build failing on Jetifier/manifest merge, fix just pushed  
+**Last iOS Build**: ✅ Build 80 (v26.087.1) — submitted to App Store Connect March 28, 2026  
+**Next Build**: **81** | **Next Task**: Get Android build green, upload AAB to Play Console  
 **Git Tag**: `build-80-v26.087.1` | **GitHub**: `https://github.com/PegasusRealm/inkwell-mobile.git`
 
 ---
@@ -22,7 +22,7 @@ inkwell-monorepo/
 ```
 
 **Build pipeline**: ALL iOS builds via EAS cloud (Xcode 26.2). Local Xcode 26.4 is NOT used — incompatible.  
-**Next session**: Start Android EAS setup (see Android section below).
+**Next session**: Android build is in progress — EAS setup done, keystore generated, last fix (Jetifier) just pushed. Run `eas build --platform android --profile production` and check result.
 
 ---
 
@@ -85,6 +85,11 @@ Current pinned image: **`macos-sequoia-15.6-xcode-26.2`** (Xcode 26, iOS 26 SDK 
         "image": "macos-sequoia-15.6-xcode-26.2",
         "scheme": "InkWell",
         "buildConfiguration": "Release",
+        "autoIncrement": false
+      },
+      "android": {
+        "buildType": "app-bundle",
+        "credentialsSource": "remote",
         "autoIncrement": false
       }
     }
@@ -221,35 +226,55 @@ Modified 7 screens and 4 components to use these utilities.
 
 ---
 
-## 🤖 Android Build — Next Up
+## 🤖 Android Build — IN PROGRESS
 
-**Status**: Not yet attempted. First-time Android submission.
+**Status**: EAS configured, keystore generated, iterating on build errors. Last fix pushed March 29, 2026. Run the build to check result.
 
-**Confirmed:**
-- NOT on Google Play Store yet — this is a first-time submission
-- No existing signing keystore — EAS will generate and manage one
-- Google Developer account exists but untouched for this app
+**Confirmed facts:**
+- NOT on Google Play Store yet — first submission
+- Play Console listing: InkWell (Draft) — Pegasus Realm account ID `465579498392368963`
+- Android bundle ID: `com.inkwellmobile` (matches Firebase + Play Console)
+- EAS keystore: generated + stored on EAS servers (`credentialsSource: remote`) — NEVER regenerate
+- First AAB upload to Play Store must be **manual** (no auto-submit until service account JSON is set up)
 
-**Before starting, confirm with user:**
-- [ ] Google Play Console — is the app listing already created, or do we create it?
-- [ ] Android bundle ID (expected: `com.pegasusrealm.inkwellmobile` — confirm matches `android/app/build.gradle`)
-- [ ] Google Play service account JSON for EAS Submit (needed for auto-submit)
+**Android keystore fingerprints (saved to /memories/repo/android-keystore.md):**
+| | |
+|--|--|
+| Key Alias | `0dd1c6e85afeb5e565ff36e1ceab1387` |
+| SHA1 | `47:A3:F6:3D:AF:D0:24:3D:65:CF:A5:20:BB:0B:E0:9C:17:13:50:77` |
+| SHA256 | `4A:43:15:C2:ED:06:07:3A:AC:E7:7A:34:0C:94:01:CC:85:E3:1D:8A:75:9F:3A:91:05:5E:9E:3C:D1:53:1F:AE` |
 
-**Current android/ state:**
-- `android/gradle.properties` → `newArchEnabled=false`, `hermesEnabled=true`
-- `android/app/google-services.json` → present
-- `versionCode` and `versionName` → stale, need to align with version system
+**SHA1 + SHA256 have been added to Firebase Console** (`inkwell-alpha` project → Android app `com.inkwellmobile`). Real `google-services.json` is in place.
 
-**Android EAS profile to add to `eas.json`:**
-```json
-"android": {
-  "image": "latest",
-  "buildType": "app-bundle",
-  "gradleCommand": ":app:bundleRelease"
-}
+**Android files configured:**
+- `android/app/build.gradle` → `applicationId "com.inkwellmobile"`, `versionCode 81`, `versionName "26.088.1"`
+- `android/gradle.properties` → `newArchEnabled=false`, `hermesEnabled=true`, `android.enableJetifier=true`
+- `android/build.gradle` → `kotlinVersion = "1.9.24"`, `AGP 8.5.2`
+- `android/app/src/main/AndroidManifest.xml` → `tools:replace="android:appComponentFactory"` added
+- `app.json` → platforms includes `android`, package `com.inkwellmobile`
+- `.easignore` → excludes `android/local.properties`
+- `react-native-gesture-handler` → pinned to `2.20.2` (2.30+ breaks Kotlin 1.9)
+
+**Build errors fixed so far (in order):**
+1. `react-native-gesture-handler 2.30+` Kotlin compile error → pinned to 2.20.2
+2. Placeholder `google-services.json` → registered Android app in Firebase, got real file
+3. `app.json` only listed iOS platform → added android + package
+4. `local.properties` local path uploaded to EAS → added to `.easignore`
+5. AGP version unspecified → pinned to 8.5.2
+6. `androidx.core` vs `com.android.support` manifest merge conflict → Jetifier enabled + `tools:replace` on manifest
+
+**To complete Android setup after build succeeds:**
+1. Download the `.aab` from EAS dashboard
+2. Upload manually to Play Console → Internal Testing track
+3. Set up Google Play service account JSON for future `eas submit` auto-submit
+4. Add SHA1 fingerprint to any OAuth clients in Google Cloud Console if Google Sign-In needed on Android
+
+**To run the build:**
+```bash
+cd mobile_2
+eas build --platform android --profile production
+# Do NOT use --auto-submit yet — first upload is manual
 ```
-
-**EAS keystore:** Run `eas credentials` to generate and store Android keystore on EAS servers. Never lose this — it cannot be regenerated and is required for all future updates.
 
 ---
 
